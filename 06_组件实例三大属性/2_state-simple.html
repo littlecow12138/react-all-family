@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1_State</title>
+  </head>
+  <body>
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      //1.create component
+      class Weather extends React.Component {
+        constructor(props) {
+          super(props);
+          // initialize state
+          this.state = {
+            isHot: true,
+          };
+          //解决changeWeather中this指向问题
+          this.changeWeather = this.changeWeather.bind(this);
+        }
+        changeWeather() {
+          //changeWeather放在哪里？ -- Weather的原型对象上，供实例使用
+          //通过Weather实例调用changeWeather时，changeWeather中的this就是Weather实例
+          //由于changeWeather是作为onClick调用，所以不是通过实例调用，是直接调用
+          //类中方法默认开启了局部严格模式，所以changeWeather中的this为undefined
+          console.log(this.state.isHot);
+          //严重注意：状态更新只能通过setState
+          this.setState({
+            isHot: !this.state.isHot,
+          });
+        }
+        render() {
+          // read state
+          return (
+            <div>
+              <h2 onClick={this.changeWeather}>
+                今天天气很{this.state.isHot ? "炎热" : "寒冷"}
+              </h2>
+            </div>
+          );
+        }
+      }
+      //2.render component to page
+      ReactDOM.render(<Weather />, document.getElementById("test"));
+    </script>
+  </body>
+</html>
