@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>回调形式的ref回调次数的问题</title>
+  </head>
+  <body>
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      // create the component
+      class Demo extends React.Component {
+        state = { isHot: false };
+
+        showData = () => {
+          alert(this.input1.value);
+        };
+
+        showDataOnBlur = () => {
+          alert(this.input2.value);
+        };
+        changeWeather = () => {
+          this.setState({
+            isHot: !this.state.isHot,
+          });
+        };
+        saveInput = (c) => {
+          this.input1 = c;
+          console.log("@", c);
+        };
+        render() {
+          const { isHot } = this.state;
+          return (
+            <div>
+              <h2>今天天气很{isHot ? "炎热" : "凉爽"}</h2>
+              {/*<input
+                ref={(c) => {
+                  this.input1 = c;
+                  console.log("@", c);
+                }}
+                type="text"
+                placeholder="Click then show data."
+              />*/}
+              <input type="text" ref={this.saveInput} />
+              <button ref="btn" onClick={this.showData}>
+                Click and show left data.
+              </button>
+              <button onClick={this.changeWeather}>
+                Click and changeWeather.
+              </button>
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<Demo />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>非受控组件</title>
+  </head>
+  <body>
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      // create component
+      class Login extends React.Component {
+        state = {
+          username: "",
+        };
+        handlesubmit = () => {
+          event.preventDefault(); // 组织表单提交
+          const { username, password } = this.state;
+          alert(`username: ${username}`);
+        };
+
+        saveUsername = (event) => {
+          console.log("@");
+          this.setState({ username: event.target.value });
+        };
+
+        savePassword = (event) => {
+          console.log("#");
+          this.setState({ password: event.target.value });
+        };
+        render() {
+          return (
+            <form action="http://www.atguigu.com" onSubmit={this.handlesubmit}>
+              用户名：
+              <input
+                type="text"
+                name="username"
+                onChange={this.saveUsername}
+              ></input>
+              密码：
+              <input
+                type="password"
+                name="password"
+                onChange={this.savePassword}
+              ></input>
+              <button>登录</button>
+            </form>
+          );
+        }
+      }
+      ReactDOM.render(<Login />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

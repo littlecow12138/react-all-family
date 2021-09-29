@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>字符串形式的ref</title>
+  </head>
+  <body>
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      // create the component
+      class Demo extends React.Component {
+        showData = () => {
+          console.log(this);
+          const { input1 } = this.refs;
+          alert(input1.value);
+          // const input = document.getElementById("input1");
+          // alert(input.value)
+        };
+
+        showDataOnBlur = () => {
+          const { input2 } = this.refs;
+          alert(input2.value);
+        };
+        render() {
+          return (
+            <div>
+              <input
+                ref="input1"
+                type="text"
+                placeholder="Click then show data."
+              />
+              <button ref="btn" onClick={this.showData}>
+                Click and show left data.
+              </button>
+              <input
+                ref="input2"
+                type="text"
+                placeholder="Blur then show data."
+                onBlur={this.showDataOnBlur}
+              />
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<Demo />, document.getElementById("test"));
+    </script>
+  </body>
+</html>
